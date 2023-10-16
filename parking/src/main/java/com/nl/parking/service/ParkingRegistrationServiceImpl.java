@@ -76,7 +76,7 @@ public class ParkingRegistrationServiceImpl implements ParkingRegistrationServic
 		    if (localTime.isBefore(isBeforeTime) || localTime.isAfter(isAfterTime)) {//checkes whether the current time is between 08:00:00 and 21:00:00.		        
 		    	return Boolean.TRUE;
 		    }else {		
-		    	return Boolean.TRUE;
+		    	return Boolean.FALSE;
 		    }		
 	}
 

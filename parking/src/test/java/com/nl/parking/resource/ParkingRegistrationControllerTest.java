@@ -1,6 +1,8 @@
 package com.nl.parking.resource;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -83,10 +85,10 @@ public class ParkingRegistrationControllerTest {
 		MvcResult result = mockMvc.perform(builder).andReturn();
 		String responseAsString = result.getResponse().getContentAsString();
 		ParkingDTO parkingResObj = mapper.readValue(responseAsString, ParkingDTO.class);
-		assertThat(parkingResObj.getStreetName().equals(parkingRegistrationRequest.getStreetName()));
-		assertThat(parkingResObj.getLicencePlateNumber().equals(parkingRegistrationRequest.getLicencePlateNumber()));
-		assertThat(parkingResObj.getStartTime()).isNotNull();
-		assertThat(parkingResObj.getEndTime()).isNull();
+		assertEquals(parkingResObj.getStreetName(), parkingRegistrationRequest.getStreetName());
+		assertEquals(parkingResObj.getLicencePlateNumber(), parkingRegistrationRequest.getLicencePlateNumber());
+		assertNotNull(parkingResObj.getStartTime());
+		assertNotNull(parkingResObj.getEndTime());
 		
 	}
 	
@@ -105,8 +107,8 @@ public class ParkingRegistrationControllerTest {
 		MvcResult result = mockMvc.perform(builder).andReturn();
 		String responseAsString = result.getResponse().getContentAsString();
 		ParkingDTO parkingResObj = mapper.readValue(responseAsString, ParkingDTO.class);
-		assertThat(parkingResObj.getStreetName().equals(parkingRegistrationRequest.getStreetName()));
-		assertThat(parkingResObj.getLicencePlateNumber().equals(parkingRegistrationRequest.getLicencePlateNumber()));
+		assertEquals(parkingResObj.getStreetName().equals(parkingRegistrationRequest.getStreetName()));
+		assertEquals(parkingResObj.getLicencePlateNumber().equals(parkingRegistrationRequest.getLicencePlateNumber()));
 		assertThat(parkingResObj.getStartTime()).isNotNull();
 		assertThat(parkingResObj.getEndTime()).isNotNull();
 		

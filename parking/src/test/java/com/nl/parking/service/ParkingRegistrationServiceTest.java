@@ -1,6 +1,8 @@
 package com.nl.parking.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 import java.math.BigDecimal;
 import java.util.Optional;
@@ -62,10 +64,10 @@ public class ParkingRegistrationServiceTest {
 		ParkingRegistrationRequest parkingRegistrationRequest = mapper.readValue(REQ, ParkingRegistrationRequest.class);
 		Mockito.when(parkingRepository.save(Mockito.any())).thenReturn(parking);
 		Parking response = parkingRegistrationServiceImpl.register(parkingRegistrationRequest);
-		assertThat(response.getStreetName().equals(parkingRegistrationRequest.getStreetName()));
-		assertThat(response.getLicencePlateNumber().equals(parkingRegistrationRequest.getLicencePlateNumber()));
-		assertThat(response.getStartTime()).isNotNull();
-		assertThat(response.getEndTime()).isNull();
+		assertEquals(response.getStreetName(), parkingRegistrationRequest.getStreetName());
+		assertEquals(response.getLicencePlateNumber(), parkingRegistrationRequest.getLicencePlateNumber());
+		assertNotNull(response.getStartTime());
+		assertNotNull(response.getEndTime());
 	}
 	
 	@Test
@@ -82,10 +84,10 @@ public class ParkingRegistrationServiceTest {
 		Mockito.when(parkingRepository.save(Mockito.any())).thenReturn(parking);
 		
 		Parking response = parkingRegistrationServiceImpl.unregister(parkingRegistrationRequest);
-		assertThat(response.getStreetName().equals(parkingRegistrationRequest.getStreetName()));
-		assertThat(response.getLicencePlateNumber().equals(parkingRegistrationRequest.getLicencePlateNumber()));
-		assertThat(response.getStartTime()).isNotNull();
-		assertThat(response.getEndTime()).isNotNull();
-		assertThat(response.getAmount()).isNotNull();
+		assertEquals(response.getStreetName(), parkingRegistrationRequest.getStreetName());
+		assertEquals(response.getLicencePlateNumber(), parkingRegistrationRequest.getLicencePlateNumber());
+		assertNotNull(response.getStartTime());
+		assertNotNull(response.getEndTime());
+		assertNotNull(response.getAmount());
 	}
 }

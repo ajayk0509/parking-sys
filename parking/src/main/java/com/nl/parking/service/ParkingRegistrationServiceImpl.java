@@ -4,9 +4,12 @@ import java.math.BigDecimal;
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +23,7 @@ import com.nl.parking.repository.ParkingRepository;
 @Service
 public class ParkingRegistrationServiceImpl implements ParkingRegistrationService{
 
-	//private static final Logger log = LoggerFactory.getLogger(ParkingRegistrationServiceImpl.class);
+	private static final Logger log = LoggerFactory.getLogger(ParkingRegistrationServiceImpl.class);
 	
 	@Autowired
 	private ParkingRepository parkingRepository;
@@ -30,7 +33,7 @@ public class ParkingRegistrationServiceImpl implements ParkingRegistrationServic
 	
 	@Override
 	public Parking register(ParkingRegistrationRequest parkingRegistrationRequest) {
-		LocalDateTime startTime = LocalDateTime.now();		
+		LocalDateTime startTime = LocalDateTime.now(ZoneId.of("Europe/Amsterda"));		
 		Parking parking = new Parking();
 		parking.setStreetName(parkingRegistrationRequest.getStreetName());
 		parking.setLicencePlateNumber(parkingRegistrationRequest.getLicencePlateNumber());
@@ -43,7 +46,7 @@ public class ParkingRegistrationServiceImpl implements ParkingRegistrationServic
 		Optional<Parking> parkingOptional = parkingRepository.findByLicencePlateNumber(parkingRegistrationRequest.getLicencePlateNumber());
 		return parkingOptional.filter(parking -> parking.getLicencePlateNumber().equals(parkingRegistrationRequest.getLicencePlateNumber()))
 		.map(parking -> {
-			LocalDateTime endTime = LocalDateTime.now();
+			LocalDateTime endTime = LocalDateTime.now(ZoneId.of("Europe/Amsterda"));
 			parking.setEndTime(endTime);
 			if(isTimeBteween8amTo9Pm(parking.getStartTime())) {
 				parking.setAmount(calculateParkingCharges(parking.getStreetName(), parking.getLicencePlateNumber(), parking.getStartTime(), endTime));
@@ -51,7 +54,7 @@ public class ParkingRegistrationServiceImpl implements ParkingRegistrationServic
 				parking.setAmount(BigDecimal.valueOf(0));
 			}			
 			return parkingRepository.save(parking);
-		}).orElseGet(() -> {
+		}).orElseThrow(() -> {
 			throw new BadRequestException("Licence plate number is not registerd");
 		});		
 	}
@@ -81,5 +84,4 @@ public class ParkingRegistrationServiceImpl implements ParkingRegistrationServic
 	public List<Parking> getAllParkings() {		
 		return parkingRepository.findAll();
 	}
-
 }

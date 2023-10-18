@@ -44,7 +44,7 @@ public class ParkingRegistrationServiceImpl implements ParkingRegistrationServic
 	@Override
 	public Parking unregister(ParkingRegistrationRequest parkingRegistrationRequest) {
 		Optional<Parking> parkingOptional = parkingRepository.findByLicencePlateNumber(parkingRegistrationRequest.getLicencePlateNumber());
-		return parkingOptional.filter(parking -> parking.getLicencePlateNumber().equals(parkingRegistrationRequest.getLicencePlateNumber()))
+		return parkingOptional.filter(parking -> parking.getLicencePlateNumber().equals(parkingRegistrationRequest.getLicencePlateNumber())) 
 		.map(parking -> {
 			LocalDateTime endTime = LocalDateTime.now(ZoneId.of("Europe/Amsterda"));
 			parking.setEndTime(endTime);
@@ -55,7 +55,7 @@ public class ParkingRegistrationServiceImpl implements ParkingRegistrationServic
 			}			
 			return parkingRepository.save(parking);
 		}).orElseThrow(() -> {
-			throw new BadRequestException("Licence plate number is not registerd");
+			return new BadRequestException("Licence plate number is not registerd");
 		});		
 	}
 	
@@ -74,9 +74,9 @@ public class ParkingRegistrationServiceImpl implements ParkingRegistrationServic
 			LocalTime isBeforeTime = LocalTime.of(8, 0, 0);
 			LocalTime isAfterTime = LocalTime.of(21, 0, 0);		    
 		    if (localTime.isBefore(isBeforeTime) || localTime.isAfter(isAfterTime)) {//checkes whether the current time is between 08:00:00 and 21:00:00.		        
-		    	return Boolean.TRUE;
-		    }else {		
 		    	return Boolean.FALSE;
+		    }else {		
+		    	return Boolean.TRUE;
 		    }		
 	}
 

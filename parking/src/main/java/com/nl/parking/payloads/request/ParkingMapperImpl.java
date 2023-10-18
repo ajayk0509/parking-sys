@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.stereotype.Component;
 
 import com.nl.parking.entity.Parking;
+import com.nl.parking.entity.UnRegisteredLicencePlateNumber;
 
 @Component
 public class ParkingMapperImpl implements ParkingMapper {
@@ -39,4 +40,34 @@ public class ParkingMapperImpl implements ParkingMapper {
 
         return list;
     }
+
+	@Override
+	public UnRegisteredLicencePlateNumberDTO licencePlateNumberToLicencePlateNumberDTO(
+			UnRegisteredLicencePlateNumber registeredLicencePlateNumber) {
+		if ( registeredLicencePlateNumber == null ) {
+            return null;
+        }
+
+		UnRegisteredLicencePlateNumberDTO unRegisteredLicencePlateNumberDTO = new UnRegisteredLicencePlateNumberDTO();	
+		unRegisteredLicencePlateNumberDTO.setId(registeredLicencePlateNumber.getId());
+		unRegisteredLicencePlateNumberDTO.setStreetName(registeredLicencePlateNumber.getStreetName());
+		unRegisteredLicencePlateNumberDTO.setLicencePlateNumber(registeredLicencePlateNumber.getLicencePlateNumber());
+		unRegisteredLicencePlateNumberDTO.setDateOfObservation(registeredLicencePlateNumber.getDateOfObservation());        
+        return unRegisteredLicencePlateNumberDTO;
+	}
+
+	@Override
+	public List<UnRegisteredLicencePlateNumberDTO> licencePlateNumberToLicencePlateNumberDTOList(
+			List<UnRegisteredLicencePlateNumber> unRegisteredLicencePlateNumbers) {	
+		if ( unRegisteredLicencePlateNumbers == null ) {
+            return null;
+        }
+
+        List<UnRegisteredLicencePlateNumberDTO> list = new ArrayList<UnRegisteredLicencePlateNumberDTO>( unRegisteredLicencePlateNumbers.size() );
+        for ( UnRegisteredLicencePlateNumber parking : unRegisteredLicencePlateNumbers ) {
+            list.add( licencePlateNumberToLicencePlateNumberDTO( parking ) );
+        }
+
+        return list;
+	}
 }

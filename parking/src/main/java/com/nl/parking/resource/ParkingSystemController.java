@@ -56,7 +56,7 @@ public class ParkingSystemController {
 	
 	@Operation(summary = "Parking unregistration")
 	@ResponseStatus(code = HttpStatus.ACCEPTED)
-	@ApiResponses(value = { @ApiResponse(responseCode = "201", description = "car parking registration has been successfully"),
+	@ApiResponses(value = { @ApiResponse(responseCode = "202", description = "car parking registration has been successfully"),
 							@ApiResponse(responseCode = "500", description = "Internal Server Error")})
 	@PutMapping("unregister")
 	public ResponseEntity<ParkingDTO> unregisterParking(@RequestBody ParkingRegistrationRequest parkingRequest){

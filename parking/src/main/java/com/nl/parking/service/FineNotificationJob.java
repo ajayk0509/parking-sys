@@ -18,7 +18,7 @@ public class FineNotificationJob {
 	@Autowired
 	private ParkingMapper mapper;
 
-	@Scheduled()
+	@Scheduled(fixedDelay = 5000)
 	public void getAllUnRegisteredLicPlates() {
 		List<UnRegisteredLicencePlateNumberDTO> licencePlateNumberDTOs = mapper.licencePlateNumberToLicencePlateNumberDTOList(monitorService.getAllUnRegisteredLicencePlateNumber());
 		licencePlateNumberDTOs.stream().forEach(UnRegisteredLicencePlateNumberDTO -> {
